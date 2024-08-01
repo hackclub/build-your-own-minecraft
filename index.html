@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+  <head>
+    <title>⛏️ hackcraft</title>
+    <style>
+      @font-face {
+        font-family: 'Operator Mono';
+        src: url('assets/OperatorMono-Regular.otf') format('opentype');
+      }
+
+      :root {
+        --monospace: 'Operator Mono';
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        background-color: transparent;
+        color: white;
+        font-family: var(--monospace);
+        margin: 0;
+        overflow-x: clip;
+        padding: 0;
+      }
+
+      canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+      }
+
+      #debug {
+        padding: 7px 14px;
+        font-size: 18px;
+        position: relative;
+        z-index: 999;
+      }
+
+      #debug p {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="debug">
+      <p id="fps"></p>
+    </div>
+    <canvas></canvas>
+    <script type="module" src="/entry.js"></script>
+  </body>
+</html>
