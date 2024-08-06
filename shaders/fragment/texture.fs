@@ -1,15 +1,27 @@
+#version 300 es
+
 precision highp float;
 
-varying vec2 v_texcoord;
-varying vec3 v_color;
-varying vec3 v_normal;
+in vec2 v_texcoord;
+in vec3 v_color;
+in vec3 v_normal;
 
 uniform sampler2D u_texture;
 uniform vec3 u_lightDir;
+uniform int u_lighting;
+
+out vec4 color;
 
 void main() {
+  vec4 tex = texture(u_texture, v_texcoord / 256.0);
+  if (tex.w == 0.0) {
+    discard;
+  }
+
   vec3 normal = normalize(v_normal);
-  float light = dot(normal, u_lightDir);
-  gl_FragColor = texture2D(u_texture, v_texcoord) * vec4(v_color, 1.0);
-  gl_FragColor.rgb *= light;
+  float light = max(0.0, dot(normal, u_lightDir));
+  color = tex * vec4(v_color, 1.0);
+  if (u_lighting == 1) {
+    color.rgb *= light;
+  }
 }

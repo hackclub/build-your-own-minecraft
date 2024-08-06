@@ -33,21 +33,12 @@ window.onload = () => {
     if (event.key !== DEBUG_KEY) game.keys[event.key] = false
   }
   const mousemove = event => {
-    const updateCoord = (pos, delta, max) => {
-      pos += delta
-      return Math.max(0, Math.min(pos, max))
-    }
-
-    game.cursor.x = updateCoord(
-      game.cursor.x !== undefined ? game.cursor.x : game.cursor.lastX,
-      event.movementX,
-      canvas.width
-    )
-    game.cursor.y = updateCoord(
-      game.cursor.y !== undefined ? game.cursor.y : game.cursor.lastY,
-      event.movementY,
-      canvas.height
-    )
+    game.cursor.x =
+      (game.cursor.x !== undefined ? game.cursor.x : game.cursor.lastX) +
+      event.movementX
+    game.cursor.y =
+      (game.cursor.y !== undefined ? game.cursor.y : game.cursor.lastY) +
+      event.movementY
   }
   const click = event => {
     game.cursor.clickX = event.x
@@ -55,6 +46,8 @@ window.onload = () => {
   }
 
   canvas.addEventListener('click', async event => {
+    if (document.pointerLockElement === canvas) return
+
     if (!game) game = await Game.init(gl)
     game.cursor = {
       lastX: event.clientX,
