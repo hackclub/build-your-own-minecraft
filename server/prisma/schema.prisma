@@ -7,9 +7,53 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model World {
-  id Int @id @default(autoincrement())
+enum BlockType {
+  GRASS
+  DIRT
+  DIRT_GRASS
+  PLANK
+  PEONY
+  SAND
+  AIR
+  OAK
+  BOOKCASE
+  DIAMOND
+  GRASS_SPROUT
+  WATER
+  LANTERN
 }
 
-model Player {
+model World {
+  id       Int       @id @default(autoincrement())
+  uuid     String    @unique
+  seed     Float
+  created  DateTime  @default(now())
+  temp     Boolean   @default(true)
+  blocks   Block[]
+  messages Message[]
+}
+
+model Block {
+  id      Int       @id @default(autoincrement())
+  worldId Int
+  world   World     @relation(fields: [worldId], references: [id])
+  chunk   String
+  type    BlockType
+  light   Float     @default(0)
+  x       Int
+  y       Int
+  z       Int
+}
+
+model Message {
+  id      Int      @id @default(autoincrement())
+  worldId Int
+  world   World    @relation(fields: [worldId], references: [id])
+  sent    DateTime @default(now())
+  text    String
+}
+
+model Client {
+  id   Int     @id @default(autoincrement())
+  nick String?
 }

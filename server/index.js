@@ -1,8 +1,9 @@
-import express from 'express'
+import { Server } from 'socket.io'
+import 'dotenv/config'
 
-const app = express()
 const port = process.env.PORT || 3000
-
-app.listen(port, () => {
-  console.log(`Hackcraft server listening on port ${port}`)
+const app = new Server(port, {
+  cors: {
+    origin: '*'
+  }
 })

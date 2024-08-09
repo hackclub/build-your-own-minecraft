@@ -6,7 +6,7 @@ window.onload = () => {
   resize(canvas)
 
   const gl = canvas.getContext('webgl2')
-  // gl.enable(gl.BLEND)
+  gl.enable(gl.BLEND)
   // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
   let game,
@@ -21,9 +21,9 @@ window.onload = () => {
     const fps = (1 / dt).toFixed(1)
     document.querySelector('#fps').innerText = `${fps} FPS`
 
+    game.processInput(gl, dt)
     game.update(gl, dt)
     game.render(gl, dt)
-    game.processInput(gl, dt)
 
     if (play) requestAnimationFrame(render)
   }
@@ -59,6 +59,10 @@ window.onload = () => {
     canvas.requestPointerLock({
       unadjustedMovement: true
     })
+  })
+
+  canvas.addEventListener('touchstart', event => {
+    const touches = event.touches.length
   })
 
   document.addEventListener('pointerlockchange', () => {
