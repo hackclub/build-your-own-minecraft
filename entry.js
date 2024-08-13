@@ -5,7 +5,9 @@ window.onload = () => {
   const canvas = document.querySelector('canvas')
   resize(canvas)
 
-  const gl = canvas.getContext('webgl2')
+  const gl = canvas.getContext('webgl2', {
+    antialiasing: true
+  })
   gl.enable(gl.BLEND)
   // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 
